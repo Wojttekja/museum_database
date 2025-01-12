@@ -73,10 +73,23 @@ WSGI_APPLICATION = 'museum_database.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+with open ('/run/secrets/db_password', 'r') as file:
+    db_password = file.read().replace('\n', '')
+with open ('/run/secrets/db_user', 'r') as file:
+    db_user = file.read().replace('\n', '')
+with open ('/run/secrets/db_host', 'r') as file:
+    db_host = file.read().replace('\n', '')
+with open ('/run/secrets/db_port', 'r') as file:
+    db_port = file.read().replace('\n', '')
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': db_user,
+        'PASSWORD': db_password,
+        'HOST': db_host,
+        'PORT': db_port
     }
 }
 
@@ -105,7 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'CET'
 
 USE_I18N = True
 
