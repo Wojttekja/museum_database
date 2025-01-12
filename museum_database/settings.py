@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "exhibits.apps.ExhibitsConfig",
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -73,13 +74,16 @@ WSGI_APPLICATION = 'museum_database.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-with open ('/run/secrets/db_password', 'r') as file:
+# hahahah you fool did you really think I would put my database password in a public repository?
+# I'm not THAT dumb
+# (I am a bit dumber but shhhhh 🤫)
+with open ('run/secrets/db_password', 'r') as file:
     db_password = file.read().replace('\n', '')
-with open ('/run/secrets/db_user', 'r') as file:
+with open ('run/secrets/db_user', 'r') as file:
     db_user = file.read().replace('\n', '')
-with open ('/run/secrets/db_host', 'r') as file:
+with open ('run/secrets/db_host', 'r') as file:
     db_host = file.read().replace('\n', '')
-with open ('/run/secrets/db_port', 'r') as file:
+with open ('run/secrets/db_port', 'r') as file:
     db_port = file.read().replace('\n', '')
 
 DATABASES = {

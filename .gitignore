@@ -1,4 +1,4 @@
-museum_database/run/secrets/*
+run/secrets/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
