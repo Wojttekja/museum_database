@@ -26,7 +26,7 @@ with open ('run/secrets/secret_key', 'r') as file:
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['20.215.42.148', '127.0.0.1']
+ALLOWED_HOSTS = ['20.215.42.148', '127.0.0.1', 'muzeum.wojtekja.tech']
 
 
 # Application definition

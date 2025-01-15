@@ -26,30 +26,30 @@ class Artwork(models.Model):
         return f"{self.title} by {self.artist}"
 
 
-class Places(models.Model):
-    PLACE_TYPES = {
-        "W muzeum": "internal",
-        "Wypożyczone": "external",
-    }
-    id = models.AutoField(primary_key=True)
-    type = models.CharField(max_length=100, choices=PLACE_TYPES)
+# class Places(models.Model):
+#     PLACE_TYPES = {
+#         "W muzeum": "internal",
+#         "Wypożyczone": "external",
+#     }
+#     id = models.AutoField(primary_key=True)
+#     type = models.CharField(max_length=100, choices=PLACE_TYPES)
 
 
-class OutsidePlaces(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    id_place = models.ForeignKey(Places, on_delete=models.CASCADE)
+# class OutsidePlaces(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     name = models.CharField(max_length=100)
+#     city = models.CharField(max_length=100)
+#     id_place = models.ForeignKey(Places, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f"{self.name} in {self.city}"
+#     def __str__(self):
+#         return f"{self.name} in {self.city}"
 
 
-class InsidePlaces(models.Model):
-    id = models.AutoField(primary_key=True)
-    room = models.CharField(max_length=100)
-    localization_in = models.ForeignKey("self", blank=True, null=True)
-    id_place = models.ForeignKey(Places, on_delete=models.CASCADE)
+# class InsidePlaces(models.Model):
+#     id = models.AutoField(primary_key=True)
+#     room = models.CharField(max_length=100)
+#     localization_in = models.ForeignKey("self", blank=True, null=True)
+#     id_place = models.ForeignKey(Places, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return f"{self.room}"
+#     def __str__(self):
+#         return f"{self.room}"
