@@ -68,7 +68,7 @@ $ sudo systemctl start museum_database.socket
 $ sudo systemctl enable museum_database.service
 $ sudo systemctl enable museum_database.socket
 ```
-And it SHOULD work (web deploy can be a *....insert a proper word yourself*)
+And it SHOULD work (web deploy can be a *....insert proper word yourself*)
 
 After every update run
 ```sh
