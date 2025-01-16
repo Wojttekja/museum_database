@@ -144,5 +144,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 LOGIN_URL = '/exhibits/login/'  # or the name of your login URL
-LOGIN_REDIRECT_URL = '/'  # Redirect here after successful login
+LOGIN_REDIRECT_URL = '/dashboard/'  # Redirect here after successful login
 LOGOUT_REDIRECT_URL = '/exhibits/login/'  # Redirect here after logout

@@ -19,3 +19,18 @@ def login_view(request):
     else:
         form = CustomLoginForm()
     return render(request, 'exhibits/login.html', {'form': form})
+
+
+from django.contrib.auth.decorators import login_required
+from .models import Artist, Artwork
+
+@login_required
+def home(request):
+    artist = Artist.objects.all()
+    artwork = Artwork.objects.all() 
+
+    context = {
+        'artist': artist,
+        'artwork': artwork,
+    }
+    return render(request, 'exhibits/home.html', context)
