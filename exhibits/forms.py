@@ -15,8 +15,14 @@ class CustomLoginForm(AuthenticationForm):
 
 # forms.py
 from .models import Artist
-
 class ArtistForm(forms.ModelForm):
     class Meta:
         model = Artist
         fields = ['first_name', 'surname', 'birth_year', 'death_year']
+
+
+from .models import OutsidePlaces
+class InstitutionForm(forms.ModelForm):
+    class Meta:
+        model = OutsidePlaces
+        fields = ['name', 'city']  

@@ -45,3 +45,14 @@ def add_artist(request):
     else:
         form = ArtistForm()
     return render(request, 'add_artist.html', {'form': form})
+
+from .forms import InstitutionForm
+def add_institution(request):
+    if request.method == 'POST':
+        form = InstitutionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('book_list')  # Redirect to a list view or another page after saving
+    else:
+        form = ArtistForm()
+    return render(request, 'add_institution.html', {'form': form})

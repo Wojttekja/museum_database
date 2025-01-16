@@ -3,14 +3,14 @@
     {% load bootstrap5 %}
     {% bootstrap_css %}
 <head>
-    <title>Add Artist</title>
+    <title>Add Institution</title>
 </head>
 <body>
-    <h1>Add a new artist</h1>
+    <h1>Add a new Institution</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Add artist</button>
+        <button type="submit">Add Institution</button>
     </form>
 </body>
 </html>
