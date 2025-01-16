@@ -11,3 +11,12 @@ class CustomLoginForm(AuthenticationForm):
         'class': 'form-control',
         'placeholder': 'Password'
     }))
+
+
+# forms.py
+from .models import Artist
+
+class ArtistForm(forms.ModelForm):
+    class Meta:
+        model = Artist
+        fields = ['first_name', 'surname', 'birth_year', 'death_year']

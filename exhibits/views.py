@@ -18,7 +18,7 @@ def login_view(request):
             return redirect('home')  # Redirect to your desired page after login
     else:
         form = CustomLoginForm()
-    return render(request, 'exhibits/login.html', {'form': form})
+    return render(request, 'login.html', {'form': form})
 
 
 from django.contrib.auth.decorators import login_required
@@ -33,4 +33,15 @@ def home(request):
         'artist': artist,
         'artwork': artwork,
     }
-    return render(request, 'exhibits/home.html', context)
+    return render(request, 'home.html', context)
+
+from .forms import ArtistForm
+def add_artist(request):
+    if request.method == 'POST':
+        form = ArtistForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('book_list')  # Redirect to a list view or another page after saving
+    else:
+        form = ArtistForm()
+    return render(request, 'add_artist.html', {'form': form})
