@@ -57,9 +57,9 @@ server {
 ```
 Then run
 ```sh 
+$ sudo systemctl daemon-reload
 $ sudo nginx -t
 $ sudo systemctl restart nginx
-$ sudo systemctl daemon-reload
 ```
 Now lets start and enable our services
 ```sh
