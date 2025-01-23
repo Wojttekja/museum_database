@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artworks</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+</head>
+<body>
+    <h1>Artworks List</h1>
+    <form method="get">
+        {{ form.as_p }}
+        <button type="submit">Filter</button>
+    </form>
+
+    <h2>Results:</h2>
+    <ul>
+        {% for artwork in artworks %}
+            <li>
+                <a href="{% url 'exhibits:artwork' artwork.id %}">{{ artwork.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

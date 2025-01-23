@@ -5,8 +5,6 @@ from django.contrib.auth import authenticate, login
 from .forms import CustomLoginForm
 
 
-def exhibits(request):
-    return HttpResponse("Hello world!")
 
 
 def login_view(request):
@@ -35,7 +33,9 @@ def home(request):
     }
     return render(request, 'home.html', context)
 
+
 from .forms import ArtistForm
+@login_required
 def add_artist(request):
     if request.method == 'POST':
         form = ArtistForm(request.POST)
@@ -46,7 +46,9 @@ def add_artist(request):
         form = ArtistForm()
     return render(request, 'add_artist.html', {'form': form})
 
+
 from .forms import InstitutionForm
+@login_required
 def add_institution(request):
     if request.method == 'POST':
         form = InstitutionForm(request.POST)
@@ -56,3 +58,32 @@ def add_institution(request):
     else:
         form = ArtistForm()
     return render(request, 'add_institution.html', {'form': form})
+
+
+############################################################################################################
+############################################################################################################
+# forms available for guests:
+from .forms import ArtworkstFilterForm
+def artworks_list(request):
+    form = ArtworkstFilterForm(request.GET or None)
+    if form.is_valid():
+        title = form.cleaned_data.get('title')
+        artist = form.cleaned_data.get('artist')
+        type = form.cleaned_data.get('type')
+        height = form.cleaned_data.get('height')
+        width = form.cleaned_data.get('width')
+        weight = form.cleaned_data.get('weight')
+        valuable = form.cleaned_data.get('valuable')
+        artworks = Artwork.objects.filter(
+            title__icontains=title,
+            artist=artist,
+            type__icontains=type,
+            height=height,
+            width=width,
+            weight=weight,
+            valuable=valuable
+        )
+    else:
+        artworks = Artwork.objects.all()
+    return render(request, 'artworks_list.html', {'form': form, 'artworks': artworks})
+

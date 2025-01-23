@@ -20,8 +20,20 @@ class ArtistForm(forms.ModelForm):
         fields = ['first_name', 'surname', 'birth_year', 'death_year']
 
 
+from .models import Artwork
+class ArtworkstFilterForm(forms.Form):
+    title = forms.CharField(max_length=100, required=False)
+    artist = forms.ModelChoiceField(queryset=Artist.objects.all(), required=False)
+    type = forms.CharField(max_length=100, required=False)
+    height = forms.IntegerField(required=False)
+    width = forms.IntegerField(required=False)
+    weight = forms.IntegerField(required=False)
+    valuable = forms.BooleanField(required=False)
+
 from .models import OutsidePlaces
 class InstitutionForm(forms.ModelForm):
     class Meta:
         model = OutsidePlaces
         fields = ['name', 'city']  
+
+
