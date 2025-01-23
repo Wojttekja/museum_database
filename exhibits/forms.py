@@ -13,7 +13,6 @@ class CustomLoginForm(AuthenticationForm):
     }))
 
 
-# forms.py
 from .models import Artist
 class ArtistForm(forms.ModelForm):
     class Meta:
