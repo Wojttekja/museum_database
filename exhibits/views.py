@@ -60,6 +60,21 @@ def add_institution(request):
     return render(request, 'add_institution.html', {'form': form})
 
 
+
+from .forms import ArtworkForm
+@login_required
+def add_artwork(request):
+    if request.method == 'POST':
+        form = ArtworkForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('artworks_list')
+    else:
+        form = ArtworkForm()
+    return render(request, 'add_artwork.html', {'form': form})
+
+
+
 ############################################################################################################
 ############################################################################################################
 # forms available for guests:
