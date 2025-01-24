@@ -4,6 +4,7 @@ from .views import login_view, home, artworks_list, add_artist, add_institution,
 
 urlpatterns = [
     # path('exhibits/', views.exhibits, name='exhibits'),
+    path('', login_view, name='login'),
     path('login/', login_view, name='login'),
     path('home/', home, name='home'),
     path('add_artist/', views.add_artist, name='add_artist'),
