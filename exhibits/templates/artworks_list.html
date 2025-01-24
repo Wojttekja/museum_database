@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     {% load bootstrap5 %}
     {% bootstrap_css %}
 </head>
+
 <body>
     <h1>Artworks List</h1>
     <form method="get">
@@ -17,10 +19,64 @@
     <h2>Results:</h2>
     <ul>
         {% for artwork in artworks %}
-            <li>
-                <a href="{% url 'exhibits:artwork' artwork.id %}">{{ artwork.title }}</a>
-            </li>
+        <li>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Artist</th>
+                    <th>Type</th>
+                    <th>Height</th>
+                    <th>Width</th>
+                    <th>Weight</th>
+                    <th>Valuable</th>
+                </tr>
+                <tr>
+                    <td>{{ artwork.id }}</td>
+                    <td>{{ artwork.title }}</td>
+                    <td>{{ artwork.artist }}</td>
+                    <td>{{ artwork.type }}</td>
+                    <td>{{ artwork.height }}</td>
+                    <td>{{ artwork.width }}</td>
+                    <td>{{ artwork.weight }}</td>
+                    <td>{{ artwork.valuable }}</td>
+                </tr>
+            </table>
+        </li>
         {% endfor %}
     </ul>
 </body>
+
 </html>
+
+
+<!-- <div class="container mt-5">
+        <h2>DostÄpne dzieĹa</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>TytuĹ</th>
+                    <th>Typ</th>
+                    <th>WysokoĹÄ</th>
+                    <th>SzerokoĹÄ</th>
+                    <th>Waga</th>
+                    <th>Autor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for exhibit in exhibits %}
+                <tr>
+                    <td>{{ exhibit.id }}</td>
+                    <td>{{ exhibit.title }}</td>
+                    <td>{{ exhibit.type }}</td>
+                    <td>{{ exhibit.height }}</td>
+                    <td>{{ exhibit.width }}</td>
+                    <td>{{ exhibit.weight }}</td>
+                    <td>{{ exhibit.artist.first_name}} {{ exhibit.artist.last_name}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+ -->
