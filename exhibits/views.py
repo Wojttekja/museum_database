@@ -6,6 +6,8 @@ from .forms import CustomLoginForm, ArtworkForm, ArtistForm
 from django.contrib.auth.decorators import login_required
 from .models import Artist, Artwork
 
+from django.contrib.auth.models import User
+from .forms import CustomUserCreationForm
 
 def login_view(request):
     if request.method == 'POST':
@@ -60,6 +62,18 @@ def add_artwork(request):
         artwork_form = ArtworkForm()
         artist_form = ArtistForm()
     return render(request, 'add_artwork.html', {'artwork_form': artwork_form, 'artist_form': artist_form})
+
+
+@login_required
+def add_user(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')  # Redirect to a desired page after saving
+    else:
+        form = CustomUserCreationForm()
+    return render(request, 'add_user.html', {'form': form})
 
 
 ############################################################################################################
