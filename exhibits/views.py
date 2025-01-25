@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from django.contrib.auth import authenticate, login
-from .forms import CustomLoginForm
+from .forms import CustomLoginForm, ArtworkForm, ArtistForm
+from django.contrib.auth.decorators import login_required
+from .models import Artist, Artwork
 
 
 def login_view(request):
@@ -17,9 +19,6 @@ def login_view(request):
     return render(request, 'login.html', {'form': form})
 
 
-from django.contrib.auth.decorators import login_required
-from .models import Artist, Artwork
-
 @login_required
 def home(request):
     artist = Artist.objects.all()
@@ -32,7 +31,6 @@ def home(request):
     return render(request, 'home.html', context)
 
 
-
 from .forms import InstitutionForm
 @login_required
 def add_institution(request):
@@ -41,11 +39,27 @@ def add_institution(request):
         if form.is_valid():
             form.save()
             return redirect('book_list')  # Redirect to a list view or another page after saving
-    else:
-        form = ArtistForm()
     return render(request, 'add_institution.html', {'form': form})
 
 
+@login_required
+def add_artwork(request):
+    if request.method == 'POST':
+        artwork_form = ArtworkForm(request.POST)
+        artist_form = ArtistForm(request.POST)
+        if artwork_form.is_valid():
+            if 'add_new_artist' in request.POST and artist_form.is_valid():
+                new_artist = artist_form.save()
+                artwork = artwork_form.save(commit=False)
+                artwork.artist = new_artist
+                artwork.save()
+            else:
+                artwork_form.save()
+            return redirect('home')
+    else:
+        artwork_form = ArtworkForm()
+        artist_form = ArtistForm()
+    return render(request, 'add_artwork.html', {'artwork_form': artwork_form, 'artist_form': artist_form})
 
 
 ############################################################################################################
