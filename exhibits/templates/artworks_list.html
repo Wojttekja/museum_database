@@ -7,45 +7,69 @@
     <title>Eksponaty</title>
     {% load bootstrap5 %}
     {% bootstrap_css %}
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 2rem;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        form {
+            margin-bottom: 2rem;
+        }
+        .table {
+            margin-top: 1rem;
+        }
+        .btn-clear {
+            margin-left: 1rem;
+        }
+    </style>
 </head>
 
 <body>
-    <h1>Lista Eksponatów</h1>
-    <form method="get">
-        {{ form.as_p }}
-        <button type="submit">Filtruj</button>
-    </form>
+    <div class="container">
+        <h1>Lista Eksponatów</h1>
+        <form method="get">
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Filtruj</button>
+            <a href="{% url 'artworks_list' %}" class="btn btn-secondary btn-clear">Wyczyść</a>
+        </form>
 
-    <h2>Results:</h2>
-        <div class="container mt-5">
-            <h2></h2>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tytuł</th>
-                        <th>Autor</th>
-                        <th>Typ</th>
-                        <th>Wysokość</th>
-                        <th>Szerokość<th>
-                        <th>Waga</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for artwork in artworks %}
-                    <tr>
-                        <td>{{ artwork.id }}</td>
-                        <td>{{ artwork.title }}</td>
-                        <td>{{ artwork.artist }}</td>
-                        <td>{{ artwork.type }}</td>
-                        <td>{{ artwork.height }}</td>
-                        <td>{{ artwork.width }}</td>
-                        <td>{{ artwork.weight }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+        <h2>Wyniki:</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tytuł</th>
+                    <th>Autor</th>
+                    <th>Typ</th>
+                    <th>Wysokość</th>
+                    <th>Szerokość</th>
+                    <th>Waga</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for artwork in artworks %}
+                <tr>
+                    <td>{{ artwork.id }}</td>
+                    <td>{{ artwork.title }}</td>
+                    <td>{{ artwork.artist }}</td>
+                    <td>{{ artwork.type }}</td>
+                    <td>{{ artwork.height }}</td>
+                    <td>{{ artwork.width }}</td>
+                    <td>{{ artwork.weight }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>

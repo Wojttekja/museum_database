@@ -3,21 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Zaloguj się</title>
     {% load bootstrap5 %}
     {% bootstrap_css %}
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1f67b0;
+            width: 100%;
+        }
+        .container {
+            text-align: center;
+            width: 50%;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .btn-guest {
+            margin-top: 1rem;
+        }
+        .btn-guest button {
+            background-color: #28a745;
+            color: white;
+            font-size: 1.05rem;
+            padding: 0.75rem 1.5rem;
+        }
+    </style>
 </head>
 <body>
-    <h2>Login</h2>
-    <form method="post" action="">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
-
-    <!-- Continue as Guest Button -->
-    <form action="/artworks" method="get">
-        <button type="submit" >Continue as Guest</button>
-    </form>
+    <div class="container">
+        <h2>Login</h2>
+        <form method="post" action="">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Zaloguj się</button>
+        </form>
+        <h2>lub</h2>
+        <form action="/artworks" method="get" class="btn-guest">
+            <button type="submit" class="btn btn-secondary">Kontynuuj jako gość</button>
+        </form>
+    </div>
 </body>
 </html>
