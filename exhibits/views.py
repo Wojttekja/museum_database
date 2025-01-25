@@ -82,22 +82,20 @@ from .forms import ArtworkstFilterForm
 def artworks_list(request):
     form = ArtworkstFilterForm(request.GET or None)
     if form.is_valid():
-        title = form.cleaned_data.get('Tytuł')
+        title = form.cleaned_data.get('title')
         artist = form.cleaned_data.get('artist')
-        type = form.cleaned_data.get('type')
-        height = form.cleaned_data.get('height')
-        width = form.cleaned_data.get('width')
-        weight = form.cleaned_data.get('weight')
-        valuable = form.cleaned_data.get('valuable')
-        artworks = Artwork.objects.filter(
-            title__icontains=title,
-            artist=artist,
-            type__icontains=type,
-            height=height,
-            width=width,
-            weight=weight,
-            valuable=valuable
-        )
+
+        if title and artist:
+            artworks = Artwork.objects.filter(
+                title__icontains=title,
+                artist=artist
+            )
+        elif title:
+            artworks = Artwork.objects.filter(title__icontains=title)
+        elif artist:
+            artworks = Artwork.objects.filter(artist=artist)
+        else:
+            artworks = Artwork.objects.all()
     else:
         artworks = Artwork.objects.all()
     return render(request, 'artworks_list.html', {'form': form, 'artworks': artworks})
