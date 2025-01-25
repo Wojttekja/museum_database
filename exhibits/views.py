@@ -82,7 +82,7 @@ from .forms import ArtworkstFilterForm
 def artworks_list(request):
     form = ArtworkstFilterForm(request.GET or None)
     if form.is_valid():
-        title = form.cleaned_data.get('title')
+        title = form.cleaned_data.get('Tytuł')
         artist = form.cleaned_data.get('artist')
         type = form.cleaned_data.get('type')
         height = form.cleaned_data.get('height')

@@ -4,79 +4,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artworks</title>
+    <title>Eksponaty</title>
     {% load bootstrap5 %}
     {% bootstrap_css %}
 </head>
 
 <body>
-    <h1>Artworks List</h1>
+    <h1>Lista Eksponatów</h1>
     <form method="get">
         {{ form.as_p }}
-        <button type="submit">Filter</button>
+        <button type="submit">Filtruj</button>
     </form>
 
     <h2>Results:</h2>
-    <ul>
-        {% for artwork in artworks %}
-        <li>
-            <table>
-                <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Artist</th>
-                    <th>Type</th>
-                    <th>Height</th>
-                    <th>Width</th>
-                    <th>Weight</th>
-                    <th>Valuable</th>
-                </tr>
-                <tr>
-                    <td>{{ artwork.id }}</td>
-                    <td>{{ artwork.title }}</td>
-                    <td>{{ artwork.artist }}</td>
-                    <td>{{ artwork.type }}</td>
-                    <td>{{ artwork.height }}</td>
-                    <td>{{ artwork.width }}</td>
-                    <td>{{ artwork.weight }}</td>
-                    <td>{{ artwork.valuable }}</td>
-                </tr>
+        <div class="container mt-5">
+            <h2></h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tytuł</th>
+                        <th>Autor</th>
+                        <th>Typ</th>
+                        <th>Wysokość</th>
+                        <th>Szerokość<th>
+                        <th>Waga</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for artwork in artworks %}
+                    <tr>
+                        <td>{{ artwork.id }}</td>
+                        <td>{{ artwork.title }}</td>
+                        <td>{{ artwork.artist }}</td>
+                        <td>{{ artwork.type }}</td>
+                        <td>{{ artwork.height }}</td>
+                        <td>{{ artwork.width }}</td>
+                        <td>{{ artwork.weight }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
-        </li>
-        {% endfor %}
-    </ul>
+        </div>
 </body>
 
 </html>
 
 
-<!-- <div class="container mt-5">
-        <h2>DostÄpne dzieĹa</h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>TytuĹ</th>
-                    <th>Typ</th>
-                    <th>WysokoĹÄ</th>
-                    <th>SzerokoĹÄ</th>
-                    <th>Waga</th>
-                    <th>Autor</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for exhibit in exhibits %}
-                <tr>
-                    <td>{{ exhibit.id }}</td>
-                    <td>{{ exhibit.title }}</td>
-                    <td>{{ exhibit.type }}</td>
-                    <td>{{ exhibit.height }}</td>
-                    <td>{{ exhibit.width }}</td>
-                    <td>{{ exhibit.weight }}</td>
-                    <td>{{ exhibit.artist.first_name}} {{ exhibit.artist.last_name}}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
- -->
+
