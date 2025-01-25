@@ -41,7 +41,6 @@ def add_artist(request):
         form = ArtistForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('book_list')  # Redirect to a list view or another page after saving
     else:
         form = ArtistForm()
     return render(request, 'add_artist.html', {'form': form})
@@ -73,13 +72,36 @@ def add_artwork(request):
         form = ArtworkForm()
     return render(request, 'add_artwork.html', {'form': form})
 
+\
+# @login_required
+# def guests_artworks_list(request):
+#     form = ArtworkstFilterForm(request.GET or None)
+#     if form.is_valid():
+#         title = form.cleaned_data.get('title')
+#         artist = form.cleaned_data.get('artist')
+
+#         if title and artist:
+#             artworks = Artwork.objects.filter(
+#                 title__icontains=title,
+#                 artist=artist
+#             )
+#         elif title:
+#             artworks = Artwork.objects.filter(title__icontains=title)
+#         elif artist:
+#             artworks = Artwork.objects.filter(artist=artist)
+#         else:
+#             artworks = Artwork.objects.all()
+#     else:
+#         artworks = Artwork.objects.all()
+#     return render(request, 'artworks_list_guests.html', {'form': form, 'artworks': artworks})
+
 
 
 ############################################################################################################
 ############################################################################################################
 # forms available for guests:
 from .forms import ArtworkstFilterForm
-def artworks_list(request):
+def guests_artworks_list(request):
     form = ArtworkstFilterForm(request.GET or None)
     if form.is_valid():
         title = form.cleaned_data.get('title')
@@ -98,5 +120,5 @@ def artworks_list(request):
             artworks = Artwork.objects.all()
     else:
         artworks = Artwork.objects.all()
-    return render(request, 'artworks_list.html', {'form': form, 'artworks': artworks})
+    return render(request, 'artworks_list_guests.html', {'form': form, 'artworks': artworks})
 

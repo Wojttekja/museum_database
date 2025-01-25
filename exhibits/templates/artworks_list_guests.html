@@ -13,6 +13,7 @@
             padding: 2rem;
         }
         .container {
+            position: relative;
             background: white;
             padding: 2rem;
             border-radius: 8px;
@@ -30,11 +31,17 @@
         .btn-clear {
             margin-left: 1rem;
         }
+        .btn-login {
+            position: absolute;
+            top: 2rem;
+            right: 1rem;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
+        <a href="{% url 'login' %}" class="btn btn-warning btn-login">Powrót do logowania</a>
         <h1>Lista Eksponatów</h1>
         <form method="get">
             {{ form.as_p }}

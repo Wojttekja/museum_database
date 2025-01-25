@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Artwork</title>
+    <title>Dodaj dzieło</title>
 </head>
 <body>
     {% load bootstrap5 %}
     {% bootstrap_css %}
-    <h1>Add Artwork</h1>
+    <h1>Dodaj dzieło</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Save</button>
+        <button type="submit">Zapisz</button>
     </form>
 </body>
 </html>
