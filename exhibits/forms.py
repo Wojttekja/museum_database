@@ -66,3 +66,13 @@ class CustomUserCreationForm(UserCreationForm):
             'password2': 'Potwierdź hasło',
             'email': 'Email'
         }
+
+class InsidePlaceForm(forms.ModelForm):
+    class Meta:
+        model = InsidePlaces
+        fields = ['name', 'place_type', 'localization_in']
+        labels = {
+            'name': 'Nazwa',
+            'place_type': 'Typ',
+            'localization_in': 'Lokalizacja wewnątrz',
+        }
