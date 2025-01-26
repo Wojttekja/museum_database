@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from django.contrib.auth import authenticate, login
-from .forms import CustomLoginForm, ArtworkForm, ArtistForm
+from .forms import CustomLoginForm, ArtworkForm, ArtistForm, OutsidePlaceForm, InsidePlaceForm
 from django.contrib.auth.decorators import login_required
-from .models import Artist, Artwork
+from .models import Artist, Artwork, Places
 
 from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm
@@ -33,15 +33,34 @@ def home(request):
     return render(request, 'home.html', context)
 
 
-from .forms import InstitutionForm
 @login_required
-def add_institution(request):
+def add_outsideplace(request):
     if request.method == 'POST':
-        form = InstitutionForm(request.POST)
+        form = OutsidePlaceForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('book_list')  # Redirect to a list view or another page after saving
+            new_place = Places.objects.create()
+            outside_place = form.save(commit=False)
+            outside_place.id_place = new_place
+            outside_place.save()
+            return redirect('home')  # Redirect to a list view or another page after saving
+    else:
+        form = OutsidePlaceForm()
     return render(request, 'add_institution.html', {'form': form})
+
+
+@login_required
+def add_insideplace(request):
+    if request.method == 'POST':
+        form = InsidePlaceForm(request.POST)
+        if form.is_valid():
+            new_place = Places.objects.create()
+            inside_place = form.save(commit=False)
+            inside_place.id_place = new_place
+            inside_place.save()
+            return redirect('home')  # Redirect to a list view or another page after saving
+    else:
+        form = InsidePlaceForm()
+    return render(request, 'add_insideplace.html', {'form': form})
 
 
 @login_required

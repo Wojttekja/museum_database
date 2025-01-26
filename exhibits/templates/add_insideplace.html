@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dodaj Instytucję zewnętrzną</title>
+    <title>Dodaj Miejsce Wewnętrzne</title>
     {% load bootstrap5 %}
     {% bootstrap_css %}
     <style>
@@ -58,11 +58,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>Dodaj Instytucję</h1>
+        <h1>Dodaj Miejsce Wewnętrzne</h1>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Dodaj Instytucję</button>
+            <button type="submit">Dodaj Miejsce Wewnętrzne</button>
         </form>
         <a href="{% url 'home' %}">
             <button type="button" class="back-button">Powrót do strony głównej</button>

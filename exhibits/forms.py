@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
-from .models import OutsidePlaces, Artwork, Artist
+from .models import OutsidePlaces, Artwork, Artist, InsidePlaces
 
 class CustomLoginForm(AuthenticationForm):
     username = forms.CharField(label="Nazwa Użytkownika", widget=forms.TextInput(attrs={
@@ -14,10 +14,24 @@ class CustomLoginForm(AuthenticationForm):
     }))
 
 
-class InstitutionForm(forms.ModelForm):
+class OutsidePlaceForm(forms.ModelForm):
     class Meta:
         model = OutsidePlaces
-        fields = ['name', 'city']  
+        fields = ['name', 'city']
+        labels = {
+            'name': 'Nazwa',
+            'city': 'Miasto'
+        } 
+
+
+class InsidePlaceForm(forms.ModelForm):
+    class Meta:
+        model = InsidePlaces
+        fields = ['name', 'localization_in']
+        labels = {
+            'name': 'Nazwa',
+            'localization_in': 'Lokalizacja wewnętrzna'
+        }
 
 
 class ArtworkForm(forms.ModelForm):

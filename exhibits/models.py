@@ -42,9 +42,9 @@ class OutsidePlaces(models.Model):
 
 class InsidePlaces(models.Model):
     id = models.AutoField(primary_key=True)
-    room = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     localization_in = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
     id_place = models.ForeignKey(Places, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.room}"
+        return f"{self.name}"
