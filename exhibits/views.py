@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from django.contrib.auth import authenticate, login
-from .forms import CustomLoginForm, ArtworkForm, ArtistForm, OutsidePlaceForm, InsidePlaceForm
+from .forms import CustomLoginForm, ArtworkForm, ArtistForm, OutsidePlaceForm
 from django.contrib.auth.decorators import login_required
 from .models import Artist, Artwork, Places
 
@@ -45,22 +45,8 @@ def add_outsideplace(request):
             return redirect('home')  # Redirect to a list view or another page after saving
     else:
         form = OutsidePlaceForm()
-    return render(request, 'add_institution.html', {'form': form})
+    return render(request, 'add_outsideplace.html', {'form': form})
 
-
-@login_required
-def add_insideplace(request):
-    if request.method == 'POST':
-        form = InsidePlaceForm(request.POST)
-        if form.is_valid():
-            new_place = Places.objects.create()
-            inside_place = form.save(commit=False)
-            inside_place.id_place = new_place
-            inside_place.save()
-            return redirect('home')  # Redirect to a list view or another page after saving
-    else:
-        form = InsidePlaceForm()
-    return render(request, 'add_insideplace.html', {'form': form})
 
 
 @login_required

@@ -43,6 +43,7 @@ class OutsidePlaces(models.Model):
 class InsidePlaces(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
+    place_type = models.CharField(max_length=50, choices=[('warehouse', 'Magazyn'), ('gallery', 'Galeria'), ('room', 'Sala')])
     localization_in = models.ForeignKey("self", blank=True, null=True, on_delete=models.CASCADE)
     id_place = models.ForeignKey(Places, on_delete=models.CASCADE)
 

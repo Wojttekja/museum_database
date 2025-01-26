@@ -24,15 +24,6 @@ class OutsidePlaceForm(forms.ModelForm):
         } 
 
 
-class InsidePlaceForm(forms.ModelForm):
-    class Meta:
-        model = InsidePlaces
-        fields = ['name', 'localization_in']
-        labels = {
-            'name': 'Nazwa',
-            'localization_in': 'Lokalizacja wewnętrzna'
-        }
-
 
 class ArtworkForm(forms.ModelForm):
     class Meta:
