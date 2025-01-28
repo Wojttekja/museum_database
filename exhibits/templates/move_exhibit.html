@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dodaj historię</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 2rem;
+        }
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        form {
+            margin-bottom: 2rem;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .back-button {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+        .back-button:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dodaj przeniesienie wewnątrz muzeum</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Dodaj</button>
+        </form>
+        <a href="{% url 'home' %}">
+            <button type="button" class="back-button">Powrót do strony głównej</button>
+        </a>
+    </div>
+</body>
+</html>

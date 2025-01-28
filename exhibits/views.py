@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 from django.contrib.auth import authenticate, login
-from .forms import CustomLoginForm, ArtworkForm, ArtistForm, OutsidePlaceForm, InsidePlaceForm
+from .forms import CustomLoginForm, ArtworkForm, ArtistForm, OutsidePlaceForm, InsidePlaceForm, HistoryForm
 from django.contrib.auth.decorators import login_required
-from .models import Artist, Artwork, Places
+from .models import Artist, Artwork, Places, History
 
 from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm
@@ -93,6 +93,38 @@ def add_user(request):
     else:
         form = CustomUserCreationForm()
     return render(request, 'add_user.html', {'form': form})
+
+
+
+def create_history_item(artwork, place, date_from, date_to=None):
+    history_item = History(
+        id_artwork=artwork,
+        id_place=place,
+        date_from=date_from,
+        date_to=date_to
+    )
+    history_item.save()
+    return history_item
+
+
+@login_required
+def move_exhibit(request):
+    if request.method == 'POST':
+        form = HistoryForm(request.POST)
+        if form.is_valid():
+            id_artwork = form.cleaned_data['id_artwork']
+            id_place = form.cleaned_data['id_place']
+            date_from = form.cleaned_data['date_from']
+            date_to = form.cleaned_data['date_to']
+            # Do something with the data, but don't save it to the model
+            # place = Places.objects.get(id=id_place.id_place)
+            # print(f"Artwork: {id_artwork}, Place: {place}, Date from: {date_from}, Date to: {date_to}")
+            print(id_place.id_place)
+            create_history_item(id_artwork, id_place.id_place, date_from, date_to)
+            return redirect('home')
+    else:
+        form = HistoryForm()
+    return render(request, 'move_exhibit.html', {'form': form})
 
 
 ############################################################################################################

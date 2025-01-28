@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
-from .models import OutsidePlaces, Artwork, Artist, InsidePlaces
+from .models import OutsidePlaces, Artwork, Artist, InsidePlaces, History
 
 class CustomLoginForm(AuthenticationForm):
     username = forms.CharField(label="Nazwa Użytkownika", widget=forms.TextInput(attrs={
@@ -76,3 +76,9 @@ class InsidePlaceForm(forms.ModelForm):
             'place_type': 'Typ',
             'localization_in': 'Lokalizacja wewnątrz',
         }
+
+class HistoryForm(forms.Form):
+    id_artwork = forms.ModelChoiceField(queryset=Artwork.objects.all(), label="Eksponat")
+    id_place = forms.ModelChoiceField(queryset=InsidePlaces.objects.all(), label="Miejsce")
+    date_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label="Data od")
+    date_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False, label="DData do")
