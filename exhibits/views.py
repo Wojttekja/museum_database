@@ -97,6 +97,15 @@ def add_user(request):
 
 
 def create_history_item(artwork, place, date_from, date_to=None):
+    # Check if there is already a history record for the given artwork in the corresponding time
+    existing_history = History.objects.filter(
+        id_artwork=artwork,
+        date_from__lte=date_to if date_to else date_from,
+        date_to__gte=date_from
+    )
+    if existing_history.exists():
+        raise ValueError("This artwork already has a history record in the given time period.")
+    
     history_item = History(
         id_artwork=artwork,
         id_place=place,
@@ -116,11 +125,11 @@ def move_exhibit(request):
             id_place = form.cleaned_data['id_place']
             date_from = form.cleaned_data['date_from']
             date_to = form.cleaned_data['date_to']
-            # Do something with the data, but don't save it to the model
-            # place = Places.objects.get(id=id_place.id_place)
-            # print(f"Artwork: {id_artwork}, Place: {place}, Date from: {date_from}, Date to: {date_to}")
-            print(id_place.id_place)
-            create_history_item(id_artwork, id_place.id_place, date_from, date_to)
+
+            try:
+                create_history_item(id_artwork, id_place.id_place, date_from, date_to)
+            except ValueError:
+                return render(request, 'move_exhibit.html', {'form': form, 'error': 'Ten eksponat już ma dodane przeniesienie w tym okresie.'})
             return redirect('home')
     else:
         form = HistoryForm()

@@ -60,14 +60,3 @@ class History(models.Model):
 
     def __str__(self):
         return f"{self.id_artwork} in {self.id_place} from {self.date_from} to {self.date_to}"
-
-
-def create_history_item(artwork, place, date_from, date_to=None):
-    history_item = History(
-        id_artwork=artwork,
-        id_place=place,
-        date_from=date_from,
-        date_to=date_to
-    )
-    history_item.save()
-    return history_item

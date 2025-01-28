@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Dodaj historię</title>
+    <meta charset="UTF-8">
+    <title>Move Exhibit</title>
     {% load bootstrap5 %}
     {% bootstrap_css %}
     <style>
@@ -62,11 +63,17 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Dodaj</button>
+            <button type="submit">Dodaj przeniesienie</button>
         </form>
         <a href="{% url 'home' %}">
             <button type="button" class="back-button">Powrót do strony głównej</button>
         </a>
     </div>
+
+    {% if error %}
+    <script type="text/javascript">
+        alert("{{ error }}");
+    </script>
+    {% endif %}
 </body>
 </html>
