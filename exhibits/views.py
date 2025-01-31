@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from .forms import CustomLoginForm, ArtworkForm, ArtistForm, OutsidePlaceForm, InsidePlaceForm, HistoryForm
 from django.contrib.auth.decorators import login_required
-from .models import Artist, Artwork, Places, History
+from .models import Artist, Artwork, Places, History, InsidePlaces, OutsidePlaces
 
 from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm
@@ -141,6 +141,76 @@ def move_exhibit(request):
     return render(request, 'move_exhibit.html', {'form': form})
 
 
+@login_required
+def places_list(request):
+    outside_places = OutsidePlaces.objects.all().values('id_place_id', 'name', 'city')
+    inside_places = InsidePlaces.objects.all().values('id_place_id', 'place_type', 'name')
+
+    places = []
+    for place in outside_places:
+        places.append({
+            'id_place_id': place['id_place_id'],
+            'name': f"{place['name']} in {place['city']}"
+        })
+    for place in inside_places:
+        places.append({
+            'id_place_id': place['id_place_id'],
+            'name': f"{place['place_type']}: {place['name']}"
+        })
+
+    context = {
+        'places': places
+    }
+    return render(request, 'places_list.html', context)
+
+
+
+from .forms import HistoryFilterForm
+@login_required
+def history_list(request):
+    form = HistoryFilterForm(request.GET or None)
+    history_items = History.objects.all()
+
+    if form.is_valid():
+        artwork = form.cleaned_data.get('artwork')
+        place_type = form.cleaned_data.get('place_type')
+
+        if artwork:
+            history_items = history_items.filter(id_artwork=artwork)
+        if place_type:
+            if place_type == 'inside':
+                history_items = history_items.filter(id_place__in=InsidePlaces.objects.values('id_place'))
+            elif place_type == 'outside':
+                history_items = history_items.filter(id_place__in=OutsidePlaces.objects.values('id_place'))
+
+    history_with_places = []
+    for item in history_items:
+        place_name = None
+        place_type = None
+        if OutsidePlaces.objects.filter(id_place=item.id_place).exists():
+            outside_place = OutsidePlaces.objects.get(id_place=item.id_place)
+            place_name = f"{outside_place.name} w {outside_place.city}"
+            place_type = "wypożyczenie"
+        elif InsidePlaces.objects.filter(id_place=item.id_place).exists():
+            inside_place = InsidePlaces.objects.get(id_place=item.id_place)
+            place_name = f"{inside_place.name}"
+            place_type = "przeniesienie"
+
+        history_with_places.append({
+            'artwork': item.id_artwork,
+            'place_name': place_name,
+            'place_type': place_type,
+            'date_from': item.date_from,
+            'date_to': item.date_to
+        })
+
+    context = {
+        'form': form,
+        'history_with_places': history_with_places
+    }
+    return render(request, 'history_list.html', context)
+
+
 ############################################################################################################
 ############################################################################################################
 # forms available for guests:
@@ -165,4 +235,3 @@ def guests_artworks_list(request):
     else:
         artworks = Artwork.objects.all()
     return render(request, 'artworks_list_guests.html', {'form': form, 'artworks': artworks})
-

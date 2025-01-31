@@ -1,3 +1,6 @@
+# Hi
+This is project for my univeristy course, Databases and net services, an app to manage museum database. I've written all of it in Django, it connects with PostgreSql database. All of it is/was hosted on Azure VPS with Azure psql database (some Azure services are free for students B))
+
 ## How to make a deploy?
 ```sh
 $ sudo nano /etc/systemd/system/museum_database.socket

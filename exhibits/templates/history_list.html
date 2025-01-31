@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History List</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 2rem;
+        }
+        .container {
+            position: relative;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        .table {
+            margin-top: 1rem;
+        }
+        form {
+            margin-bottom: 2rem;
+        }
+        .btn-home {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="{% url 'home' %}" class="btn btn-primary btn-home">Powrót do strony głównej</a>
+        <h1>Historia przeniesień i wypożyczeń</h1>
+        <form method="get">
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Filtruj</button>
+            <a href="{% url 'history_list' %}" class="btn btn-secondary">Wyczyść</a>
+        </form>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Eksponat</th>
+                    <th>Miejsce</th>
+                    <th>Typ</th>
+                    <th>Data od</th>
+                    <th>Data do</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in history_with_places %}
+                    <tr>
+                        <td>{{ item.artwork }}</td>
+                        <td>{{ item.place_name }}</td>
+                        <td>{{ item.place_type }}</td>
+                        <td>{{ item.date_from }}</td>
+                        <td>{{ item.date_to }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

@@ -90,3 +90,7 @@ class HistoryForm(forms.Form):
     id_place = forms.ModelChoiceField(queryset=InsidePlaces.objects.all(), label="Miejsce")
     date_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label="Data od")
     date_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False, label="Data do")
+
+class HistoryFilterForm(forms.Form):
+    artwork = forms.ModelChoiceField(queryset=Artwork.objects.all(), required=False, label="Eksponat")
+    place_type = forms.ChoiceField(choices=[('', 'Wszystkie'), ('inside', 'Inside'), ('outside', 'Outside')], required=False, label="Typ miejsca")

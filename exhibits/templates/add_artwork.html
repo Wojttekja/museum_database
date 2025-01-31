@@ -41,6 +41,20 @@
             display: none;
             margin-top: 1rem;
         }
+        .back-button {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            margin-top: 1rem;
+        }
+        .back-button:hover {
+            background-color: #5a6268;
+        }
     </style>
     <script>
         function toggleNewArtistForm() {
@@ -78,6 +92,9 @@
             </div>
             <button type="submit">Zapisz</button>
         </form>
+        <a href="{% url 'home' %}">
+            <button type="button" class="back-button">Powrót do strony głównej</button>
+        </a>
     </div>
 </body>
 </html>
