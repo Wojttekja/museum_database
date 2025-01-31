@@ -12,6 +12,8 @@ from django.urls import reverse
 from django.contrib import messages
 from django.views.decorators.http import require_POST
 
+from django.db import models
+
 def login_view(request):
     if request.method == 'POST':
         form = CustomLoginForm(data=request.POST)
@@ -240,23 +242,38 @@ def delete_artwork(request, artwork_id):
 # form available for guests:
 def guests_artworks_list(request):
     form = ArtworkstFilterForm(request.GET or None)
+    today = datetime.today().date()
+    current_artworks = History.objects.filter(
+        (models.Q(date_from__lte=today) & models.Q(date_to__gte=today)) |
+        models.Q(date_to__isnull=True),
+        id_place__in=InsidePlaces.objects.filter(place_type__in=['gallery', 'room']).values('id_place')
+    ).values('id_artwork')
+
     if form.is_valid():
         title = form.cleaned_data.get('title')
         artist = form.cleaned_data.get('artist')
 
         if title and artist:
             artworks = Artwork.objects.filter(
+                id__in=current_artworks,
                 title__icontains=title,
                 artist=artist
             )
         elif title:
-            artworks = Artwork.objects.filter(title__icontains=title)
+            artworks = Artwork.objects.filter(
+                id__in=current_artworks,
+                title__icontains=title
+            )
         elif artist:
-            artworks = Artwork.objects.filter(artist=artist)
+            artworks = Artwork.objects.filter(
+                id__in=current_artworks,
+                artist=artist
+            )
         else:
-            artworks = Artwork.objects.all()
+            artworks = Artwork.objects.filter(id__in=current_artworks)
     else:
-        artworks = Artwork.objects.all()
+        artworks = Artwork.objects.filter(id__in=current_artworks)
+    
     return render(request, 'artworks_list_guests.html', {'form': form, 'artworks': artworks})
 
 
@@ -269,9 +286,6 @@ def artists_list(request):
 @login_required
 def delete_artist(request, artist_id):
     artist = get_object_or_404(Artist, id=artist_id)
-    # if not Artwork.objects.filter(artist=artist).exists():
-    # else:
-    #     messages.error(request, 'Cannot delete artist with existing artworks.')
     artist.delete()
     messages.success(request, 'Artist deleted successfully.')
     return redirect('artists_list')

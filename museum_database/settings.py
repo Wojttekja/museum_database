@@ -24,7 +24,7 @@ with open ('run/secrets/secret_key', 'r') as file:
     SECRET_KEY = file.read().replace('\n', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['20.215.42.148', '127.0.0.1', 'muzeum.wojtekja.tech']
 
