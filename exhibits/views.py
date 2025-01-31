@@ -248,7 +248,7 @@ def delete_artwork(request, artwork_id):
 
 ############################################################################################################
 ############################################################################################################
-# forms available for guests:
+# form available for guests:
 from .forms import ArtworkstFilterForm
 def guests_artworks_list(request):
     form = ArtworkstFilterForm(request.GET or None)
@@ -287,3 +287,19 @@ def delete_artist(request, artist_id):
     artist.delete()
     messages.success(request, 'Artist deleted successfully.')
     return redirect('artists_list')
+
+@login_required
+def inside_places_list(request):
+    inside_places = InsidePlaces.objects.all()
+    context = {
+        'inside_places': inside_places
+    }
+    return render(request, 'inside_places_list.html', context)
+
+@login_required
+def outside_places_list(request):
+    outside_places = OutsidePlaces.objects.all()
+    context = {
+        'outside_places': outside_places
+    }
+    return render(request, 'outside_places_list.html', context)

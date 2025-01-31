@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Miejsca</title>
+    <title>Pomieszczenia</title>
     {% load bootstrap5 %}
     {% bootstrap_css %}
     <style>
@@ -18,43 +19,45 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        h1, h2 {
+        h1 {
             text-align: center;
         }
         .table {
             margin-top: 1rem;
         }
-        .btn-clear {
-            margin-left: 1rem;
-        }
-        .btn-login {
+        .btn-back {
             position: absolute;
             top: 2rem;
             right: 1rem;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <a href="{% url 'home' %}" class="btn btn-warning btn-login">Powrót do logowania</a>
-        <h1>Places List</h1>
-        <h2>Wyniki:</h2>
+        <a href="{% url 'home' %}" class="btn btn-warning btn-back">Powrót do strony głównej</a>
+        <h1>Lista Miejsc Wewnętrznych</h1>
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
+                    <th>Nazwa</th>
+                    <th>Typ</th>
+                    <th>Lokalizacja Wewnątrz</th>
                 </tr>
             </thead>
             <tbody>
-                {% for place in places %}
+                {% for place in inside_places %}
                 <tr>
-                    <td>{{ place.id }}</td>
+                    <td>{{ place.id_place.id }}</td>
                     <td>{{ place.name }}</td>
+                    <td>{{ place.place_type }}</td>
+                    <td>{{ place.localization_in }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </body>
+
 </html>

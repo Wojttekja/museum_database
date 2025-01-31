@@ -57,9 +57,11 @@
         <div class="section">
             <h2>Miejsca</h2>
             <div class="btn-group">
-                <a href="{% url 'places_list' %}" class="btn btn-primary">Lista miejsc</a>
-                <a href="{% url 'add_institution' %}" class="btn btn-primary">Dodaj instytucję zewnętrzną</a>
+                <!-- <a href="{% url 'places_list' %}" class="btn btn-primary">Lista miejsc</a> -->
+                <a href="{% url 'inside_places_list' %}" class="btn btn-primary">Lista pomieszczeń wewnątrz Muzeum</a>
                 <a href="{% url 'add_insideplace' %}" class="btn btn-primary">Dodaj pomieszczenie wewnątrz Muzeum</a>
+                <a href="{% url 'outside_places_list' %}" class="btn btn-primary">Lista instytucji zewnętrznych</a>
+                <a href="{% url 'add_institution' %}" class="btn btn-primary">Dodaj instytucję zewnętrzną</a>
             </div>
         </div>
 
