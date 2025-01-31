@@ -46,10 +46,13 @@
         function toggleNewArtistForm() {
             var checkBox = document.getElementById("add-new-artist");
             var form = document.getElementById("new-artist-form");
+            var artistField = document.getElementById("id_artist");
             if (checkBox.checked) {
                 form.style.display = "block";
+                artistField.disabled = true;
             } else {
                 form.style.display = "none";
+                artistField.disabled = false;
             }
         }
     </script>
@@ -67,6 +70,11 @@
             <div id="new-artist-form" class="new-artist-form">
                 <h2>Nowy Artysta</h2>
                 {{ artist_form.as_p }}
+                {% if artist_form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ artist_form.non_field_errors }}
+                    </div>
+                {% endif %}
             </div>
             <button type="submit">Zapisz</button>
         </form>

@@ -50,6 +50,14 @@ class ArtistForm(forms.ModelForm):
             'death_year': 'Rok śmierci'
         }
 
+    def clean(self):
+        cleaned_data = super().clean()
+        birth_year = cleaned_data.get("birth_year")
+        death_year = cleaned_data.get("death_year")
+
+        if birth_year and death_year and birth_year > death_year:
+            self.add_error('death_year', 'Rok śmierci musi być późniejszy niż rok urodzenia.')
+
 
 class ArtworkstFilterForm(forms.Form):
     title = forms.CharField(max_length=100, required=False, label="Tytuł")
@@ -81,4 +89,4 @@ class HistoryForm(forms.Form):
     id_artwork = forms.ModelChoiceField(queryset=Artwork.objects.all(), label="Eksponat")
     id_place = forms.ModelChoiceField(queryset=InsidePlaces.objects.all(), label="Miejsce")
     date_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label="Data od")
-    date_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False, label="DData do")
+    date_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=False, label="Data do")

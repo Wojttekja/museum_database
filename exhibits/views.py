@@ -74,6 +74,8 @@ def add_artwork(request):
                 artwork = artwork_form.save(commit=False)
                 artwork.artist = new_artist
                 artwork.save()
+            elif not artist_form.is_valid():
+                return render(request, 'add_artwork.html', {'artwork_form': artwork_form, 'artist_form': artist_form})
             else:
                 artwork_form.save()
             return redirect('home')
@@ -125,6 +127,9 @@ def move_exhibit(request):
             id_place = form.cleaned_data['id_place']
             date_from = form.cleaned_data['date_from']
             date_to = form.cleaned_data['date_to']
+
+            if date_to and date_from > date_to:
+                return render(request, 'move_exhibit.html', {'form': form, 'error': 'Data od musi być wcześniejsza niż data do.'})
 
             try:
                 create_history_item(id_artwork, id_place.id_place, date_from, date_to)
