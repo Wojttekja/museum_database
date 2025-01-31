@@ -1,7 +1,5 @@
 from django.urls import path
 from django.contrib.auth.views import LogoutView
-from . import views
-# from .views import login_view, home, guests_artworks_list, add_artwork, add_user, add_outsideplace, add_insideplace, move_exhibit, places_list, history_list, delete_artwork, staff_artworks_list, artists_list, delete_artist, inside_places_list
 from .views import *
 
 urlpatterns = [
@@ -24,5 +22,7 @@ urlpatterns = [
     path('inside_places/', inside_places_list, name='inside_places_list'),
     path('outside_places/', outside_places_list, name='outside_places_list'),
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
+    path('rent_exhibit/', rent_exhibit, name='rent'),
+    path('add_artwork_with_artist/', add_artwork_with_artist, name='add_artwork_with_artist'),
 ]
 

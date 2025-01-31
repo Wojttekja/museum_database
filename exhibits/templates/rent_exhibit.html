@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Dodaj dzieło</title>
+    <meta charset="UTF-8">
+    <title>Wypożycz</title>
     {% load bootstrap5 %}
     {% bootstrap_css %}
     <style>
@@ -37,6 +38,9 @@
         button:hover {
             background-color: #0056b3;
         }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
         .back-button {
             display: block;
             width: 100%;
@@ -51,36 +55,25 @@
         .back-button:hover {
             background-color: #5a6268;
         }
-        .add-artist-button {
-            display: block;
-            width: 100%;
-            padding: 0.5rem;
-            background-color: #f50303;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            margin-top: 1rem;
-        }
-        .add-artist-button:hover {
-            background-color: #ad14a3;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Dodaj dzieło</h1>
+        <h1>Dodaj wypożyczenie</h1>
         <form method="post">
             {% csrf_token %}
-            {{ artwork_form.as_p }}
-            <a href="{% url 'add_artwork_with_artist' %}">
-                <button type="button" class="add-artist-button">Lub dodaj eksponat razem z artystą</button>
-            </a>
-            <button type="submit">Zapisz</button>
+            {{ form.as_p }}
+            <button type="submit">Dodaj przeniesienie</button>
         </form>
         <a href="{% url 'home' %}">
             <button type="button" class="back-button">Powrót do strony głównej</button>
         </a>
     </div>
+
+    {% if error %}
+    <script type="text/javascript">
+        alert("{{ error }}");
+    </script>
+    {% endif %}
 </body>
 </html>

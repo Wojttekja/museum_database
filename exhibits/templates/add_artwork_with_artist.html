@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Dodaj dzieło</title>
+    <title>Dodaj dzieło i artystę</title>
     {% load bootstrap5 %}
     {% bootstrap_css %}
     <style>
@@ -51,31 +51,16 @@
         .back-button:hover {
             background-color: #5a6268;
         }
-        .add-artist-button {
-            display: block;
-            width: 100%;
-            padding: 0.5rem;
-            background-color: #f50303;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 1rem;
-            margin-top: 1rem;
-        }
-        .add-artist-button:hover {
-            background-color: #ad14a3;
-        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Dodaj dzieło</h1>
+        <h1>Dodaj dzieło i artystę</h1>
         <form method="post">
             {% csrf_token %}
             {{ artwork_form.as_p }}
-            <a href="{% url 'add_artwork_with_artist' %}">
-                <button type="button" class="add-artist-button">Lub dodaj eksponat razem z artystą</button>
-            </a>
+            <h2>Nowy Artysta</h2>
+            {{ artist_form.as_p }}
             <button type="submit">Zapisz</button>
         </form>
         <a href="{% url 'home' %}">

@@ -2,12 +2,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 
 from django.contrib.auth import authenticate, login
-from .forms import CustomLoginForm, ArtworkForm, ArtistForm, OutsidePlaceForm, InsidePlaceForm, HistoryForm
+from .forms import *
 from django.contrib.auth.decorators import login_required
 from .models import Artist, Artwork, Places, History, InsidePlaces, OutsidePlaces
 
 from django.contrib.auth.models import User
-from .forms import CustomUserCreationForm
 
 from django.urls import reverse
 from django.contrib import messages
@@ -71,22 +70,12 @@ def add_insideplace(request):
 def add_artwork(request):
     if request.method == 'POST':
         artwork_form = ArtworkForm(request.POST)
-        artist_form = ArtistForm(request.POST)
         if artwork_form.is_valid():
-            if 'add_new_artist' in request.POST and artist_form.is_valid():
-                new_artist = artist_form.save()
-                artwork = artwork_form.save(commit=False)
-                artwork.artist = new_artist
-                artwork.save()
-            elif not artist_form.is_valid():
-                return render(request, 'add_artwork.html', {'artwork_form': artwork_form, 'artist_form': artist_form})
-            else:
-                artwork_form.save()
+            artwork_form.save()
             return redirect('home')
     else:
         artwork_form = ArtworkForm()
-        artist_form = ArtistForm()
-    return render(request, 'add_artwork.html', {'artwork_form': artwork_form, 'artist_form': artist_form})
+    return render(request, 'add_artwork.html', {'artwork_form': artwork_form})
 
 
 @login_required
@@ -124,7 +113,7 @@ def create_history_item(artwork, place, date_from, date_to=None):
 @login_required
 def move_exhibit(request):
     if request.method == 'POST':
-        form = HistoryForm(request.POST)
+        form = MoveForm(request.POST)
         if form.is_valid():
             id_artwork = form.cleaned_data['id_artwork']
             id_place = form.cleaned_data['id_place']
@@ -140,7 +129,7 @@ def move_exhibit(request):
                 return render(request, 'move_exhibit.html', {'form': form, 'error': 'Ten eksponat już ma dodane przeniesienie w tym okresie.'})
             return redirect('home')
     else:
-        form = HistoryForm()
+        form = MoveForm()
     return render(request, 'move_exhibit.html', {'form': form})
 
 
@@ -249,7 +238,6 @@ def delete_artwork(request, artwork_id):
 ############################################################################################################
 ############################################################################################################
 # form available for guests:
-from .forms import ArtworkstFilterForm
 def guests_artworks_list(request):
     form = ArtworkstFilterForm(request.GET or None)
     if form.is_valid():
@@ -303,3 +291,88 @@ def outside_places_list(request):
         'outside_places': outside_places
     }
     return render(request, 'outside_places_list.html', context)
+
+
+
+from .forms import ArtworkstFilterForm
+from django.db.models import Sum
+from datetime import datetime
+
+def create_renting(artwork, place, date_from, date_to):
+    existing_history = History.objects.filter(
+        id_artwork=artwork,
+        date_from__lte=date_to if date_to else date_from,
+        date_to__gte=date_from
+    )
+    if existing_history.exists():
+        raise ValueError("This artwork already has a history record in the given time period.")
+    
+    current_year = date_from.year
+    rentals = History.objects.filter(
+        id_artwork=artwork,
+        id_place__in=OutsidePlaces.objects.values('id_place'),
+        date_from__year=current_year
+    )
+
+    days_rented = 0
+    for rental in rentals:
+        rental_start = max(rental.date_from, datetime(current_year, 1, 1).date())
+        rental_end = min(rental.date_to or datetime(current_year, 12, 31).date(), datetime(current_year, 12, 31).date())
+        days_rented += (rental_end - rental_start).days + 1
+
+    days_rented += (date_to - date_from).days + 1
+    if days_rented > 30:
+        raise ValueError("This artwork has been rented for more than 30 days this year.")
+    
+
+    
+    history_item = History(
+        id_artwork=artwork,
+        id_place=place,
+        date_from=date_from,
+        date_to=date_to
+    )
+    history_item.save()
+    return history_item
+
+
+@login_required
+def rent_exhibit(request):
+    if request.method == 'POST':
+        form = RentForm(request.POST)
+        if form.is_valid():
+            id_artwork = form.cleaned_data['id_artwork']
+            id_place = form.cleaned_data['id_place']
+            date_from = form.cleaned_data['date_from']
+            date_to = form.cleaned_data['date_to']
+        
+            if date_to and date_from > date_to:
+                return render(request, 'rent_exhibit.html', {'form': form, 'error': 'Data od musi być wcześniejsza niż data do.'})
+            
+            if id_artwork.valuable:
+                return render(request, 'rent_exhibit.html', {'form': form, 'error': 'Tego eksponatu nie można wypożyczyć.'})
+        try:
+            create_renting(id_artwork, id_place.id_place, date_from, date_to)
+        except ValueError:
+            return render(request, 'rent_exhibit.html', {'form': form, 'error': 'Ten eksponat już ma dodane przeniesienie w tym okresie.'})
+        return redirect('home')
+    else:
+        form = RentForm()
+    return render(request, 'rent_exhibit.html', {'form': form})
+
+
+@login_required
+def add_artwork_with_artist(request):
+    if request.method == 'POST':
+        artwork_form = ArtworkFormNewArtist(request.POST)
+        artist_form = ArtistForm(request.POST)
+        if artwork_form.is_valid() and artist_form.is_valid():
+            new_artist = artist_form.save()
+            artwork = artwork_form.save(commit=False)
+            artwork.artist = new_artist
+            artwork.save()
+            return redirect('home')
+    else:
+        artwork_form = ArtworkFormNewArtist()
+        artist_form = ArtistForm()
+    return render(request, 'add_artwork_with_artist.html', {'artwork_form': artwork_form, 'artist_form': artist_form})

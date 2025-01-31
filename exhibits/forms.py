@@ -39,6 +39,19 @@ class ArtworkForm(forms.ModelForm):
             'valuable': 'Czy cenny'
         }
 
+class ArtworkFormNewArtist(forms.ModelForm):
+    class Meta:
+        model = Artwork
+        fields = ['title', 'type', 'height', 'width', 'weight', 'valuable']
+        labels = {
+            'title': 'Tytuł',
+            'type': 'Typ',
+            'height': 'Wysokość (mm)',
+            'width': 'Szerokość (mm)',
+            'weight': 'Waga (g)',
+            'valuable': 'Czy cenny'
+        }
+
 class ArtistForm(forms.ModelForm):
     class Meta:
         model = Artist
@@ -85,7 +98,7 @@ class InsidePlaceForm(forms.ModelForm):
             'localization_in': 'Lokalizacja wewnątrz',
         }
 
-class HistoryForm(forms.Form):
+class MoveForm(forms.Form):
     id_artwork = forms.ModelChoiceField(queryset=Artwork.objects.all(), label="Eksponat")
     id_place = forms.ModelChoiceField(queryset=InsidePlaces.objects.all(), label="Miejsce")
     date_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label="Data od")
@@ -94,3 +107,10 @@ class HistoryForm(forms.Form):
 class HistoryFilterForm(forms.Form):
     artwork = forms.ModelChoiceField(queryset=Artwork.objects.all(), required=False, label="Eksponat")
     place_type = forms.ChoiceField(choices=[('', 'Wszystkie'), ('inside', 'Inside'), ('outside', 'Outside')], required=False, label="Typ miejsca")
+
+
+class RentForm(forms.Form):
+    id_artwork = forms.ModelChoiceField(queryset=Artwork.objects.all(), label="Eksponat")
+    id_place = forms.ModelChoiceField(queryset=OutsidePlaces.objects.all(), label="Miejsce")
+    date_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label="Data od")
+    date_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label="Data do")
