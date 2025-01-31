@@ -33,15 +33,22 @@
         .section {
             margin-bottom: 2rem;
         }
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <a href="{% url 'logout' %}" class="btn btn-danger logout-btn">Wyloguj się</a>
         <h1>Witaj w panelu zarządzania Muzeum</h1>
 
         <div class="section">
             <h2>Eksponaty</h2>
             <div class="btn-group">
+                <a href="{% url 'artists_list' %}" class="btn btn-primary">Lista artystów</a>
                 <a href="{% url 'staff_artworks_list' %}" class="btn btn-primary">Lista eksponatów</a>
                 <a href="{% url 'add_artwork' %}" class="btn btn-primary">Dodaj eksponat</a>
             </div>

@@ -25,6 +25,12 @@ class Artwork(models.Model):
     def __str__(self):
         return f"{self.title} by {self.artist}"
 
+    def delete(self, *args, **kwargs):
+        artist = self.artist
+        super().delete(*args, **kwargs)
+        if artist and not Artwork.objects.filter(artist=artist).exists():
+            artist.delete()
+
 
 class Places(models.Model):
     id = models.AutoField(primary_key=True)

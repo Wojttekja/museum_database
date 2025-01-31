@@ -35,7 +35,7 @@ class ArtworkForm(forms.ModelForm):
             'type': 'Typ',
             'height': 'Wysokość (mm)',
             'width': 'Szerokość (mm)',
-            'weight': 'Waga',
+            'weight': 'Waga (g)',
             'valuable': 'Czy cenny'
         }
 

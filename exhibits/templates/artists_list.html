@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eksponaty</title>
+    <title>Artyści</title>
     {% load bootstrap5 %}
     {% bootstrap_css %}
     <style>
@@ -38,48 +37,37 @@
         }
     </style>
 </head>
-
 <body>
     <div class="container">
-        <a href="{% url 'login' %}" class="btn btn-warning btn-login">Powrót do logowania</a>
-        <h1>Lista Eksponatów</h1>
-        <form method="get">
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Filtruj</button>
-            <a href="{% url 'artworks_list' %}" class="btn btn-secondary btn-clear">Wyczyść</a>
-        </form>
-
-        <h2>Wyniki:</h2>
+        <h2>Artists List</h2>
+        <a href="{% url 'home' %}" class="btn btn-primary mb-3">Powrót do strony głównej</a>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Tytuł</th>
-                    <th>Autor</th>
-                    <th>Typ</th>
-                    <th>Wysokość (mm)</th>
-                    <th>Szerokość (mm)</th>
-                    <th>Waga (g)</th>
+                    <th>Imie</th>
+                    <th>Nazwisko</th>
+                    <th>Data urodzenia</th>
+                    <th>Data śmierci</th>
+                    <th>Akcje</th>
                 </tr>
             </thead>
             <tbody>
-                {% for artwork in artworks %}
+                {% for artist in artists %}
                 <tr>
-                    <td>{{ artwork.id }}</td>
-                    <td>{{ artwork.title }}</td>
-                    <td>{{ artwork.artist }}</td>
-                    <td>{{ artwork.type }}</td>
-                    <td>{{ artwork.height }}</td>
-                    <td>{{ artwork.width }}</td>
-                    <td>{{ artwork.weight }}</td>
+                    <td>{{ artist.first_name }}</td>
+                    <td>{{ artist.surname }}</td>
+                    <td>{{ artist.birth_year }}</td>
+                    <td>{{ artist.death_year }}</td>
+                    <td>
+                        <form action="{% url 'delete_artist' artist.id %}" method="post" onsubmit="return confirm('Czy jesteś pewien że chcesz usunąć tego artystę? Jeżeli to zrobisz pole autor w eksponatach których był autorem zostanie ustawione na Null');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Usuń</button>
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 </body>
-
 </html>
-
-
-

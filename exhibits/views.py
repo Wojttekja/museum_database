@@ -9,6 +9,10 @@ from .models import Artist, Artwork, Places, History, InsidePlaces, OutsidePlace
 from django.contrib.auth.models import User
 from .forms import CustomUserCreationForm
 
+from django.urls import reverse
+from django.contrib import messages
+from django.views.decorators.http import require_POST
+
 def login_view(request):
     if request.method == 'POST':
         form = CustomLoginForm(data=request.POST)
@@ -99,7 +103,6 @@ def add_user(request):
 
 
 def create_history_item(artwork, place, date_from, date_to=None):
-    # Check if there is already a history record for the given artwork in the corresponding time
     existing_history = History.objects.filter(
         id_artwork=artwork,
         date_from__lte=date_to if date_to else date_from,
@@ -213,8 +216,6 @@ def history_list(request):
 
 
 
-from django.views.decorators.http import require_POST
-
 @login_required
 def staff_artworks_list(request):
     form = ArtworkstFilterForm(request.GET or None)
@@ -269,3 +270,20 @@ def guests_artworks_list(request):
     else:
         artworks = Artwork.objects.all()
     return render(request, 'artworks_list_guests.html', {'form': form, 'artworks': artworks})
+
+
+@login_required
+def artists_list(request):
+    artists = Artist.objects.all()
+    return render(request, 'artists_list.html', {'artists': artists})
+
+@require_POST
+@login_required
+def delete_artist(request, artist_id):
+    artist = get_object_or_404(Artist, id=artist_id)
+    # if not Artwork.objects.filter(artist=artist).exists():
+    # else:
+    #     messages.error(request, 'Cannot delete artist with existing artworks.')
+    artist.delete()
+    messages.success(request, 'Artist deleted successfully.')
+    return redirect('artists_list')

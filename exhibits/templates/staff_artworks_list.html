@@ -41,8 +41,8 @@
 
 <body>
     <div class="container">
-        <a href="{% url 'home' %}" class="btn btn-warning btn-login">Powrót do strony głównej</a>
         <h1>Lista Eksponatów - Pracownicy</h1>
+        <a href="{% url 'home' %}" class="btn btn-primary mb-3">Powrót do strony głównej</a>
         <form method="get">
             {{ form.as_p }}
             <button type="submit" class="btn btn-primary">Filtruj</button>
@@ -57,9 +57,9 @@
                     <th>Tytuł</th>
                     <th>Autor</th>
                     <th>Typ</th>
-                    <th>Wysokość</th>
-                    <th>Szerokość</th>
-                    <th>Waga</th>
+                    <th>Wysokość (mm)</th>
+                    <th>Szerokość (mm)</th>
+                    <th>Waga (g)</th>
                     <th>Akcje</th>
                 </tr>
             </thead>
