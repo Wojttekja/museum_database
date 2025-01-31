@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eksponaty - Pracownicy</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 2rem;
+        }
+        .container {
+            position: relative;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        form {
+            margin-bottom: 2rem;
+        }
+        .table {
+            margin-top: 1rem;
+        }
+        .btn-clear {
+            margin-left: 1rem;
+        }
+        .btn-login {
+            position: absolute;
+            top: 2rem;
+            right: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <a href="{% url 'home' %}" class="btn btn-warning btn-login">Powrót do strony głównej</a>
+        <h1>Lista Eksponatów - Pracownicy</h1>
+        <form method="get">
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Filtruj</button>
+            <a href="{% url 'staff_artworks_list' %}" class="btn btn-secondary btn-clear">Wyczyść</a>
+        </form>
+
+        <h2>Wyniki:</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tytuł</th>
+                    <th>Autor</th>
+                    <th>Typ</th>
+                    <th>Wysokość</th>
+                    <th>Szerokość</th>
+                    <th>Waga</th>
+                    <th>Akcje</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for artwork in artworks %}
+                <tr>
+                    <td>{{ artwork.id }}</td>
+                    <td>{{ artwork.title }}</td>
+                    <td>{{ artwork.artist }}</td>
+                    <td>{{ artwork.type }}</td>
+                    <td>{{ artwork.height }}</td>
+                    <td>{{ artwork.width }}</td>
+                    <td>{{ artwork.weight }}</td>
+                    <td>
+                        <form method="post" action="{% url 'delete_artwork' artwork.id %}" onsubmit="return confirm('Czy na pewno chcesz usunąć ten eksponat?');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

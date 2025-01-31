@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 
 from django.contrib.auth import authenticate, login
@@ -15,7 +15,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('home')  # Redirect to your desired page after login
+            return redirect('home')  
     else:
         form = CustomLoginForm()
     return render(request, 'login.html', {'form': form})
@@ -42,7 +42,7 @@ def add_outsideplace(request):
             outside_place = form.save(commit=False)
             outside_place.id_place = new_place
             outside_place.save()
-            return redirect('home')  # Redirect to a list view or another page after saving
+            return redirect('home')  #
     else:
         form = OutsidePlaceForm()
     return render(request, 'add_outsideplace.html', {'form': form})
@@ -57,7 +57,7 @@ def add_insideplace(request):
             inside_place = form.save(commit=False)
             inside_place.id_place = new_place
             inside_place.save()
-            return redirect('home')  # Redirect to a list view or another page after saving
+            return redirect('home')  
     else:
         form = InsidePlaceForm()
     return render(request, 'add_insideplace.html', {'form': form})
@@ -91,7 +91,7 @@ def add_user(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')  # Redirect to a desired page after saving
+            return redirect('home')  
     else:
         form = CustomUserCreationForm()
     return render(request, 'add_user.html', {'form': form})
@@ -209,6 +209,40 @@ def history_list(request):
         'history_with_places': history_with_places
     }
     return render(request, 'history_list.html', context)
+
+
+
+
+from django.views.decorators.http import require_POST
+
+@login_required
+def staff_artworks_list(request):
+    form = ArtworkstFilterForm(request.GET or None)
+    if form.is_valid():
+        title = form.cleaned_data.get('title')
+        artist = form.cleaned_data.get('artist')
+
+        if title and artist:
+            artworks = Artwork.objects.filter(
+                title__icontains=title,
+                artist=artist
+            )
+        elif title:
+            artworks = Artwork.objects.filter(title__icontains=title)
+        elif artist:
+            artworks = Artwork.objects.filter(artist=artist)
+        else:
+            artworks = Artwork.objects.all()
+    else:
+        artworks = Artwork.objects.all()
+    return render(request, 'staff_artworks_list.html', {'form': form, 'artworks': artworks})
+
+@require_POST
+@login_required
+def delete_artwork(request, artwork_id):
+    artwork = get_object_or_404(Artwork, id=artwork_id)
+    artwork.delete()
+    return redirect('staff_artworks_list')
 
 
 ############################################################################################################

@@ -6,23 +6,70 @@
     <title>Dashboard</title>
     {% load bootstrap5 %}
     {% bootstrap_css %}
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 2rem;
+        }
+        .container {
+            position: relative;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: left;
+        }
+        .btn-group a {
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin: 0.5rem;
+        }
+        .section {
+            margin-bottom: 2rem;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Dashboard</h1>
+    <div class="container">
+        <h1>Witaj w panelu zarządzania Muzeum</h1>
 
-    <h2>Artists</h2>
-    <ul>
-        {% for row in artist_data %}
-            <li>{{ row }}</li>
-        {% endfor %}
-    </ul>
+        <div class="section">
+            <h2>Eksponaty</h2>
+            <div class="btn-group">
+                <a href="{% url 'staff_artworks_list' %}" class="btn btn-primary">Lista eksponatów</a>
+                <a href="{% url 'add_artwork' %}" class="btn btn-primary">Dodaj eksponat</a>
+            </div>
+        </div>
 
-    <h2>Artworks</h2>
-    <ul>
-        {% for row in artwork_data %}
-            <li>{{ row }}</li>
-        {% endfor %}
-    </ul>
+        <div class="section">
+            <h2>Miejsca</h2>
+            <div class="btn-group">
+                <a href="{% url 'places_list' %}" class="btn btn-primary">Lista miejsc</a>
+                <a href="{% url 'add_institution' %}" class="btn btn-primary">Dodaj instytucję zewnętrzną</a>
+                <a href="{% url 'add_insideplace' %}" class="btn btn-primary">Dodaj pomieszczenie wewnątrz Muzeum</a>
+            </div>
+        </div>
 
+        <div class="section">
+            <h2>Zarządzanie eksponatami</h2>
+            <div class="btn-group">
+                <a href="{% url 'history_list' %}" class="btn btn-primary">Historia</a>
+                <a href="{% url 'get_history_item' %}" class="btn btn-primary">Przenieś eksponat (wewnątrz Muzeum)</a>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Zarządzanie użytkowanikami</h2>
+            <div class="btn-group">
+                <a href="{% url 'add_user' %}" class="btn btn-primary">Dodaj użytkownika</a>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

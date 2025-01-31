@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import login_view, home, guests_artworks_list, add_artwork, add_user, add_outsideplace, add_insideplace, move_exhibit, places_list, history_list
+from .views import login_view, home, guests_artworks_list, add_artwork, add_user, add_outsideplace, add_insideplace, move_exhibit, places_list, history_list, delete_artwork, staff_artworks_list
 
 urlpatterns = [
     # path('exhibits/', views.exhibits, name='exhibits'),
@@ -15,4 +15,7 @@ urlpatterns = [
     path('move_exhibit/', move_exhibit, name='get_history_item'),
     path('places/', places_list, name='places_list'),
     path('history/', history_list, name='history_list'),
+    path('delete_artwork/<int:artwork_id>/', delete_artwork, name='delete_artwork'),
+    path('staff_artworks/', staff_artworks_list, name='staff_artworks_list'),
 ]
+
