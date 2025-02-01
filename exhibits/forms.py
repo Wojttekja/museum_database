@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.models import User
 from .models import OutsidePlaces, Artwork, Artist, InsidePlaces, History
+from datetime import datetime
 
 class CustomLoginForm(AuthenticationForm):
     username = forms.CharField(label="Nazwa Użytkownika", widget=forms.TextInput(attrs={
@@ -114,3 +115,10 @@ class RentForm(forms.Form):
     id_place = forms.ModelChoiceField(queryset=OutsidePlaces.objects.all(), label="Miejsce")
     date_from = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label="Data od")
     date_to = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label="Data do")
+
+class YearChoiceForm(forms.Form):
+    year = forms.ChoiceField(
+        choices=[(year, year) for year in range(2010, datetime.now().year + 5)],
+        label="Year",
+        initial=datetime.now().year
+    )

@@ -24,5 +24,6 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
     path('rent_exhibit/', rent_exhibit, name='rent'),
     path('add_artwork_with_artist/', add_artwork_with_artist, name='add_artwork_with_artist'),
+    path('artwork_rent_days/', artwork_rent_days, name='artwork_rent_days'),
 ]
 

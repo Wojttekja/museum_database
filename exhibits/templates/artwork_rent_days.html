@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eksponaty</title>
+    <title>Wypożyczenia</title>
     {% load bootstrap5 %}
     {% bootstrap_css %}
     <style>
@@ -31,47 +31,36 @@
         .btn-clear {
             margin-left: 1rem;
         }
-        .btn-login {
-            position: absolute;
-            top: 2rem;
-            right: 1rem;
-        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <a href="{% url 'login' %}" class="btn btn-warning btn-login">Powrót do logowania</a>
-        <h1>Lista Dostępnych w Muzeum Eksponatów</h1>
+        <h1>Wypożyczenia</h1>
+        <a href="{% url 'home' %}" class="btn btn-primary mb-3">Powrót do strony głównej</a>
         <form method="get">
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Filtruj</button>
-            <a href="{% url 'artworks_list' %}" class="btn btn-secondary btn-clear">Wyczyść</a>
+            <button type="submit" class="btn btn-primary">Szukaj</button>
+            <a href="{% url 'artwork_rent_days' %}" class="btn btn-secondary btn-clear">Wyczyść</a>
         </form>
 
-        <h2>Wyniki:</h2>
+        <h2>Rok: {{ year }}</h2>
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Tytuł</th>
-                    <th>Autor</th>
-                    <th>Typ</th>
-                    <th>Wysokość (mm)</th>
-                    <th>Szerokość (mm)</th>
-                    <th>Waga (g)</th>
+                    <th>Eksponat</th>
+                    <th>Suma wypożyczeń w tym roku</th>
+                    <th>Pozostałe dni</th>
+                    <th>Czy możliwe do wypożyczenia w tym roku</th>
                 </tr>
             </thead>
             <tbody>
-                {% for artwork in artworks %}
+                {% for artwork, days in artwork_days.items %}
                 <tr>
-                    <td>{{ artwork.id }}</td>
                     <td>{{ artwork.title }}</td>
-                    <td>{{ artwork.artist }}</td>
-                    <td>{{ artwork.type }}</td>
-                    <td>{{ artwork.height }}</td>
-                    <td>{{ artwork.width }}</td>
-                    <td>{{ artwork.weight }}</td>
+                    <td>{{ days.0 }}</td>
+                    <td>{{ days.1 }}</td>
+                    <td>{{ days.2 }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -80,6 +69,3 @@
 </body>
 
 </html>
-
-
-

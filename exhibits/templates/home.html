@@ -71,16 +71,17 @@
             <div class="btn-group">
                 <a href="{% url 'history_list' %}" class="btn btn-primary">Historia</a>
                 <a href="{% url 'get_history_item' %}" class="btn btn-primary">Przenieś eksponat (wewnątrz Muzeum)</a>
+                <a href="{% url 'artwork_rent_days' %}" class="btn btn-primary">Sprawdź dostępność do wypożyczenia</a>
                 <a href="{% url 'rent' %}" class="btn btn-primary">Wypożycz eksponat</a>
             </div>
         </div>
 
-        <div class="section">
+        <!-- <div class="section">
             <h2>Zarządzanie użytkowanikami</h2>
             <div class="btn-group">
                 <a href="{% url 'add_user' %}" class="btn btn-primary">Dodaj użytkownika</a>
             </div>
-        </div>
+        </div> -->
     </div>
 </body>
 </html>

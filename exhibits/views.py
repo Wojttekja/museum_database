@@ -390,3 +390,41 @@ def add_artwork_with_artist(request):
         artwork_form = ArtworkFormNewArtist()
         artist_form = ArtistForm()
     return render(request, 'add_artwork_with_artist.html', {'artwork_form': artwork_form, 'artist_form': artist_form})
+
+
+from .forms import YearChoiceForm
+from datetime import datetime
+
+@login_required
+def artwork_rent_days(request):
+    form = YearChoiceForm(request.GET or None)
+    year = datetime.now().year
+    if form.is_valid():
+        year = form.cleaned_data['year']
+
+    history_items = History.objects.filter(
+        id_place__in=OutsidePlaces.objects.values('id_place'),
+        date_from__year__lte=year,
+        date_to__year__gte=year
+    )
+
+    artwork_days = {}
+    # days_left = {}
+    for item in history_items:
+        artwork = item.id_artwork
+        rental_start = max(item.date_from, datetime(year, 1, 1).date())
+        rental_end = min(item.date_to or datetime(year, 12, 31).date(), datetime(year, 12, 31).date())
+        days_rented = (rental_end - rental_start).days + 1
+
+        if artwork not in artwork_days:
+            artwork_days[artwork] = 0
+        artwork_days[artwork] += days_rented
+
+    # days_left = {artwork: 30 - artwork_days[artwork] for artwork in artwork_days}
+    artwork_days = {artwork: (artwork_days[artwork], max(30 - artwork_days[artwork], 0), 'tak' if artwork_days[artwork] < 30 else 'nie') for artwork in artwork_days}
+    context = {
+        'form': form,
+        'artwork_days': artwork_days,
+        'year': year
+    }
+    return render(request, 'artwork_rent_days.html', context)
